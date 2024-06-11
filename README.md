@@ -10,12 +10,9 @@
     <a href="https://github.com/hitz-zentroa/GoLLIE/blob/main/LICENSE"><img alt="GitHub license" src="https://img.shields.io/github/license/hitz-zentroa/GoLLIE"></a>
     <!-- <a href="https://huggingface.co/collections/HiTZ/gollie-651bf19ee315e8a224aacc4f"><img alt="Pretrained Models" src="https://img.shields.io/badge/🤗HuggingFace-Pretrained Models-green"></a> -->
     <a href="https://arxiv.org/abs/2305.13582"><img alt="Paper" src="https://img.shields.io/badge/📖-Paper-orange"></a>
-<br>
-    <br>
-     <br>
 </p>
 
-<p align="justify">
+## Summary
 We propose TransFusion, a framework in which models are fine-tuned to use English translations of low-resource language data, enabling more precise predictions through annotation fusion. 
 Based on TransFusion, we introduce GoLLIE-TF, a cross-lingual instruction-tuned LLM for IE tasks, designed to close the performance gap between high and low-resource languages.
 
