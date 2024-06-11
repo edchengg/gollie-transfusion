@@ -1,0 +1,23 @@
+# The following lines describe the task definition
+{%- for definition in guidelines %}
+{{ definition }}
+{%- endfor %}
+
+# This is the text to analyze
+text = {{ text.__repr__() }}
+
+# This is the English translation of the text
+eng_text = {{ en_text.__repr__() }}
+
+# Use both eng_text and text and generate results for text
+
+# The list called result contains the relation annotations for the following entities in text:
+{%- for ann in gold %}
+#    - "{{ann.span}}": {{ann.__class__.__name__}}
+{%- endfor %}
+# 
+result = [
+{%- for ann in annotations %}
+    {{ ann }},
+{%- endfor %}
+]

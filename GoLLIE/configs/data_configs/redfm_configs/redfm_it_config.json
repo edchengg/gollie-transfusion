@@ -1,0 +1,33 @@
+{
+    "dataset_name": "REDFM",
+    "tasks": [
+        "RE"
+    ],
+    "dataloader_cls": "src.tasks.redfm.data_loader.REDFMDatasetLoader",
+    "sampler_cls": "src.tasks.redfm.data_loader.REDFMSampler",
+    "dev_file": "validation",
+    "test_file": "test",
+    "language": "it",
+    "output_name": "redfm.it",
+    "prompt_template": "templates/prompt_re.txt",
+    "seed": [
+        0,
+        24,
+        42
+    ],
+    "label_noise_prob": [
+        0.15,
+        0.5,
+        0.75
+    ],
+    "task_configuration": {
+        "RE": {
+            "parallel_instances": 1,
+            "max_guidelines": -1,
+            "guideline_dropout": 0.15,
+            "scorer": "src.tasks.redfm.scorer.REDFMRelationScorer",
+            "paraphrase_train": true,
+            "label_noise": 0.5
+        }
+    }
+}

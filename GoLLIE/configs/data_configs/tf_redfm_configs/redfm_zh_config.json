@@ -1,0 +1,29 @@
+{
+    "dataset_name": "REDFM",
+    "tasks": [
+        "RE"
+    ],
+    "dataloader_cls": "src.tasks.redfm.data_loader.REDFMTransFusionDatasetLoader",
+    "sampler_cls": "src.tasks.redfm.data_loader.REDFMSampler",
+    "test_file": "test",
+    "language": "zh",
+    "output_name": "redfm.zh",
+    "prompt_template": "templates/prompt_redfm_re_tfv2.txt",
+    "use_transfusion": true,
+    "seed": [
+        0
+    ],
+    "label_noise_prob": [
+        0.15
+    ],
+    "task_configuration": {
+        "RE": {
+            "parallel_instances": 1,
+            "max_guidelines": -1,
+            "guideline_dropout": 0.15,
+            "scorer": "src.tasks.redfm.scorer.REDFMRelationScorer",
+            "paraphrase_train": true,
+            "label_noise": 0.5
+        }
+    }
+}

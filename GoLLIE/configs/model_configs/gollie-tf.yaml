@@ -1,0 +1,91 @@
+#Training args
+model_name_or_path: HiTZ/GoLLIE-7B
+torch_dtype: bfloat16
+use_lora: true
+quantization: 4
+quantization_inference: null
+gradient_checkpointing: true
+force_auto_device_map: false
+use_flash_attention: true
+merge_lora_before_eval: true
+
+# dataset arguments
+dataset_dir:
+  GoLLIE/data/processed_w_examples
+train_tasks:
+  # - ontonotes5.ner
+# dataset ep arguments
+dataset_ep_dir:
+  GoLLIE/data/mixture_gollie/
+train_ep_tasks:
+  - mixture
+validation_tasks:
+  - masakhaner.bam.ner
+test_tasks:
+  # -
+max_examples_per_task_train: 1
+max_examples_per_task_train_ep: 20000
+max_examples_per_task_val: 2
+max_examples_per_task_test: 200
+max_seq_length: 4096
+generation_max_length: 4096
+ignore_pad_token_for_loss: true
+prompt_loss_weight: 0.0
+
+# checkpoint settings
+output_dir: GoLLIE/model_output/gollie_tf
+overwrite_output_dir: true
+load_best_model_at_end: false
+save_strategy: "epoch"
+save_steps: 100
+save_total_limit: 5
+
+# evaluation
+do_train: true
+do_eval: false
+do_predict: false
+evaluation_strategy: "epoch"
+eval_steps: 500
+eval_delay: 0
+predict_with_generate: true
+evaluate_all_checkpoints: false
+
+# batch size
+per_device_train_batch_size: 16
+per_device_eval_batch_size: 4
+gradient_accumulation_steps: 1
+generation_num_beams: 1
+
+# optimizer settings
+optim: adamw_torch_fused
+learning_rate: 0.0001
+weight_decay: 0.0
+num_train_epochs: 1
+lr_scheduler_type: cosine
+warmup_ratio: 0.03
+adam_epsilon: 1e-7
+
+# lora settings
+lora_r: 128
+lora_alpha: 16
+lora_dropout: 0.05
+lora_target_modules:
+  - all
+
+# reporting
+logging_strategy: steps
+logging_first_step: true
+logging_steps: 25
+report_to: wandb
+run_name: "codellama-ep"
+disable_tqdm: false
+
+# hub settings
+push_to_hub: false
+resume_from_checkpoint: false
+
+# performance
+bf16: true
+fp16: false
+torch_compile: false
+ddp_find_unused_parameters: false

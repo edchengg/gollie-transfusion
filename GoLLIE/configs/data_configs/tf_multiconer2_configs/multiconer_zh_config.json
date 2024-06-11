@@ -1,0 +1,34 @@
+{
+    "dataset_name": "MultiCoNER2",
+    "tasks": [
+        "NER"
+    ],
+    "dataloader_cls": "src.tasks.multiconer2.data_loader.MultiCoNERTransFusionDatasetLoader",
+    "sampler_cls": "src.tasks.multiconer2.data_loader.MultiCoNERSampler",
+    "test_file": "/coc/pskynet6/ychen3411/transfusion/GoLLIE/dataset/MultiCoNER2/ZH-Chinese/zh_dev.conll",
+    "prompt_template": "templates/prompt_tf.txt",
+    "output_name": "multiconer2.zh",
+    "do_not_shuffle": true,
+    "use_transfusion": true,
+    "seed": [
+        0,
+        24,
+        42
+    ],
+    "label_noise_prob": [
+        0.15,
+        0.5,
+        0.75
+    ],
+    "task_configuration": {
+        "NER": {
+            "parallel_instances": 1,
+            "max_guidelines": -1,
+            "guideline_dropout": 0.15,
+            "scorer": "src.tasks.multiconer2.scorer.MultiCoNEREntityScorer",
+            "paraphrase_train": true,
+            "label_noise": 0.5,
+            "do_not_shuffle": true
+        }
+    }
+}

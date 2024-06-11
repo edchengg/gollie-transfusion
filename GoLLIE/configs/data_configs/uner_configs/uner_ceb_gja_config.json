@@ -1,0 +1,32 @@
+{
+    "dataset_name": "UNER",
+    "tasks": [
+        "NER"
+    ],
+    "dataloader_cls": "src.tasks.uner.data_loader.UNERDatasetLoader",
+    "sampler_cls": "src.tasks.uner.data_loader.UNERSampler",
+    "test_file": "/coc/pskynet6/ychen3411/transfusion/GoLLIE/dataset/uner-20231114-092426/ceb_gja/ceb_gja-ud-test.iob2",
+    "prompt_template": "templates/prompt.txt",
+    "output_name": "uner.ceb_gja",
+    "seed": [
+        0,
+        24,
+        42
+    ],
+    "label_noise_prob": [
+        0.15,
+        0.5,
+        0.75
+    ],
+    "include_date": false,
+    "task_configuration": {
+        "NER": {
+            "parallel_instances": 1,
+            "max_guidelines": -1,
+            "guideline_dropout": 0.15,
+            "scorer": "src.tasks.uner.scorer.UNEREntityScorer",
+            "paraphrase_train": true,
+            "label_noise": 0.5
+        }
+    }
+}

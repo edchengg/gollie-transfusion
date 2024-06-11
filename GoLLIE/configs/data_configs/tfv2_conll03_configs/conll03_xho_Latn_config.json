@@ -1,0 +1,26 @@
+{
+    "dataset_name": "CoNLL03",
+    "tasks": [
+        "NER"
+    ],
+    "dataloader_cls": "src.tasks.conll03.data_loader.CoNLLTransFusionDatasetLoader",
+    "sampler_cls": "src.tasks.conll03.data_loader.CoNLL03Sampler",
+    "train_file": "/coc/pskynet6/ychen3411/project03_ace_event/few-shot-learning-main/masakhane-ner/NLLB/easyproject_conll/output-nllb_3Bft_parallel/nllb_3Bft_parallel-en-xho-marker.json",
+    "prompt_template": "templates/prompt_tfv2.txt",
+    "output_name": "conll03.xho_Latn",
+    "label_noise_prob": [
+        0.15
+    ],
+    "include_misc": false,
+    "use_transfusion": true,
+    "task_configuration": {
+        "NER": {
+            "parallel_instances": 1,
+            "max_guidelines": -1,
+            "guideline_dropout": 0.15,
+            "scorer": "src.tasks.conll03.scorer.CoNLLEntityScorer",
+            "paraphrase_train": true,
+            "label_noise": 0.5
+        }
+    }
+}

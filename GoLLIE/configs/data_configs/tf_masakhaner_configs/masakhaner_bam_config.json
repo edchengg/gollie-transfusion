@@ -1,0 +1,30 @@
+{
+    "dataset_name": "MasakhaNER",
+    "tasks": [
+        "NER"
+    ],
+    "dataloader_cls": "src.tasks.masakhaner.data_loader.MasakhaNERTransFusionDatasetLoader",
+    "sampler_cls": "src.tasks.masakhaner.data_loader.MasakhaNERSampler",
+    "test_file": "/coc/pskynet6/ychen3411/project03_ace_event/few-shot-learning-main/masakhane-ner/MasakhaNER2.0/data/bam/test.txt",
+    "translation_file": "/coc/pskynet6/ychen3411/project03_ace_event/few-shot-learning-main/masakhane-ner/NLLB/fusion_experiment/data/masakhaner-translation/bam/test.txt.eng_Latn",
+    "prompt_template": "templates/prompt_tf.txt",
+    "output_name": "masakhaner.bam",
+    "use_transfusion": true,
+    "seed": [
+        0
+    ],
+    "label_noise_prob": [
+        0.15
+    ],
+    "include_date": false,
+    "task_configuration": {
+        "NER": {
+            "parallel_instances": 1,
+            "max_guidelines": -1,
+            "guideline_dropout": 0.15,
+            "scorer": "src.tasks.masakhaner.scorer.MasakhaNEREntityScorer",
+            "paraphrase_train": true,
+            "label_noise": 0.5
+        }
+    }
+}

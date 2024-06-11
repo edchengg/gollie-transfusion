@@ -1,0 +1,71 @@
+{
+    "dataset_name": "ACE05",
+    "tasks": [
+        "NER",
+        "VER",
+        "RE",
+        "RC",
+        "EE",
+        "EAE"
+    ],
+    "dataloader_cls": "src.tasks.ace.data_loader.ACETransFusionDatasetLoader",
+    "sampler_cls": "src.tasks.ace.data_loader.ACESampler",
+    "train_file": "/coc/pskynet6/ychen3411/transfusion/GoLLIE/data_easyproject/ace/ace_sna_Latn.jsonl",
+    "output_name": "ace.sna_Latn",
+    "prompt_template": "templates/prompt.txt",
+    "seed": [
+        0
+    ],
+    "label_noise_prob": [
+        0.15
+    ],
+    "use_transfusion": true,
+    "use_transfusionv2": true,
+    "task_configuration": {
+        "NER": {
+            "group_by": "sentence",
+            "parallel_instances": 1,
+            "max_guidelines": -1,
+            "guideline_dropout": 0.15,
+            "scorer": "src.tasks.ace.scorer.ACEEntityScorer"
+        },
+        "VER": {
+            "group_by": "sentence",
+            "parallel_instances": 1,
+            "max_guidelines": -1,
+            "guideline_dropout": 0.15,
+            "scorer": "src.tasks.ace.scorer.ACEValueScorer"
+        },
+        "RE": {
+            "group_by": "sentence",
+            "parallel_instances": 1,
+            "max_guidelines": -1,
+            "guideline_dropout": 0.15,
+            "scorer": "src.tasks.ace.scorer.ACECoarseRelationScorer"
+        },
+        "RC": {
+            "group_by": "sentence",
+            "parallel_instances": 1,
+            "max_guidelines": -1,
+            "guideline_dropout": 0.15,
+            "scorer": "src.tasks.ace.scorer.ACERelationScorer",
+            "ensure_positives_on_train": true
+        },
+        "EE": {
+            "group_by": "sentence",
+            "parallel_instances": 1,
+            "max_guidelines": -1,
+            "guideline_dropout": 0.15,
+            "scorer": "src.tasks.ace.scorer.ACEEventScorer"
+        },
+        "EAE": {
+            "group_by": "sentence",
+            "parallel_instances": 1,
+            "max_guidelines": -1,
+            "sample_total_guidelines": 5,
+            "guideline_dropout": 0.15,
+            "scorer": "src.tasks.ace.scorer.ACEEventArgumentScorer",
+            "ensure_positives_on_train": true
+        }
+    }
+}

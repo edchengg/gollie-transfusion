@@ -1,0 +1,33 @@
+{
+    "dataset_name": "Massive",
+    "tasks": [
+        "NER"
+    ],
+    "dataloader_cls": "src.tasks.massive.data_loader.MassiveTransFusionDatasetLoader",
+    "sampler_cls": "src.tasks.massive.data_loader.MassiveSampler",
+    "test_file": "",
+    "language": "hy-AM",
+    "prompt_template": "templates/prompt_tf.txt",
+    "output_name": "massive.hy-AM",
+    "use_transfusion": true,
+    "seed": [
+        0,
+        24,
+        42
+    ],
+    "label_noise_prob": [
+        0.15,
+        0.5,
+        0.75
+    ],
+    "task_configuration": {
+        "NER": {
+            "parallel_instances": 1,
+            "max_guidelines": -1,
+            "guideline_dropout": 0.15,
+            "scorer": "src.tasks.massive.scorer.MassiveEntityScorer",
+            "paraphrase_train": true,
+            "label_noise": 0.5
+        }
+    }
+}

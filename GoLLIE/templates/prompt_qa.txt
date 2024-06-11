@@ -1,0 +1,14 @@
+# The following lines describe the task definition
+{%- for definition in guidelines %}
+{{ definition }}
+{%- endfor %}
+
+# This is the context and question
+text = {{ text.__repr__() }}
+
+# The list called result contains one answer to answer the question:
+result = [
+{%- for ann in annotations %}
+    {{ ann }},
+{%- endfor %}
+]
