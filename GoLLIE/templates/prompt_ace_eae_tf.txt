@@ -13,8 +13,9 @@ eng_text = {{ en_text.__repr__() }}
 # (1) generate annotation for eng_text
 # (2) generate annotation for text
 
-# The list called result contains the instances for the following events according to the guidelines above in eng_text:
-{%- for ann in en_gold %}
+# Generate annotations for result for eng_text and final_result for text.
+# The list called result and final_result contains the instances for the following events according to the guidelines above in text.
+{%- for ann in gold %}
 #    - "{{ann.mention}}" triggers a {{ann.__class__.__name__}} event.
 {%- endfor %}
 # 
@@ -24,13 +25,9 @@ result = [
 {%- endfor %}
 ]
 
-# The list called final_result contains the instances for the following events according to the guidelines above in text:
-{%- for ann in gold %}
-#    - "{{ann.mention}}" triggers a {{ann.__class__.__name__}} event.
-{%- endfor %}
-# 
 final_result = [
 {%- for ann in annotations %}
     {{ ann }},
 {%- endfor %}
 ]
+

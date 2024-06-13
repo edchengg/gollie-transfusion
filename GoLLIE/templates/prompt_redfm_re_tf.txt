@@ -9,14 +9,23 @@ text = {{ text.__repr__() }}
 # This is the English translation of the text
 eng_text = {{ en_text.__repr__() }}
 
-# Use both eng_text and text and generate results for text
+# Using translation and fusion
+# (1) generate annotation for eng_text
+# (2) generate annotation for text
 
-# The list called result contains the fine-grained relations for the following coarse-grained relations in text:
+# Generate annotations for result for eng_text and final_result for text.
+# The list called result and final_result contains the relation annotations for the following entities in text.
 {%- for ann in gold %}
 #    - {{ ann.__repr__() }}
 {%- endfor %}
 # 
 result = [
+{%- for ann in en_annotations %}
+    {{ ann }},
+{%- endfor %}
+]
+
+final_result = [
 {%- for ann in annotations %}
     {{ ann }},
 {%- endfor %}
