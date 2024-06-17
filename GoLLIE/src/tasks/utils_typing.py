@@ -984,3 +984,12 @@ class AnnotationList(list):
 
     def to_string(self) -> str:
         return str(self)
+
+@dataclass
+class SkipAction(Entity):
+    span: str
+
+@dataclass
+class IgnoreAction(Entity):
+    """A class to represent ignore action."""
+    span: str
