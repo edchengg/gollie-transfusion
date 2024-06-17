@@ -68,13 +68,18 @@ We release three GoLLIE models based on [CODE-LLama](https://huggingface.co/code
 
 ## Continue Training GoLLIE for TransFusion
 
-First, we initialize the model from GoLLIE-7B.
+First, we initialize the model from GoLLIE-7B. Then we set up training data path in gollie-tf.yaml (dataset_ep_dir:). A copy of the data can be found in [link](https://drive.google.com/drive/folders/1AmN02h0TSwgBCjkIjZiaMFwJSxKzObJE).
 
-Second, we continue train the model on English and TransFusion data using QLoRA.
+Second, we continue train the model on English and TransFusion data using QLoRA. Cehck bash_scripts/run_training.sh
 
 ```bash
 CONFIGS_FOLDER="configs/model_configs"
 python3 -m src.run ${CONFIGS_FOLDER}/gollie-tf.yaml
+```
+
+Finally, we run inference by loading lora weights and merging it with the GoLLIE-7B. Check bash_scripts/run_inference.sh. A copy of the processed test data can be found in [link](https://drive.google.com/drive/folders/1_qHM9R4HJT0DIZ68z4himb1M7fnYu8h4).
+```bash
+python3 -m src.hf_inference --dataset_path $DATASET_PATH --task_name_list $DATASET_NAME --num_size $NUM_SIZE --output_path $OUTPUT_PATH --batch_size 8 --model_name MODEL_NAME
 ```
 
 ## Encoder-based TransFusion
@@ -93,19 +98,8 @@ Please check code at [edchengg/transfusion](https://github.com/edchengg/transfus
   year={2023}
 }
 ```
-Please cite GoLLIE if you use GoLLIE model.
-```bibtex
-@misc{sainz2023gollie,
-      title={GoLLIE: Annotation Guidelines improve Zero-Shot Information-Extraction}, 
-      author={Oscar Sainz and Iker García-Ferrero and Rodrigo Agerri and Oier Lopez de Lacalle and German Rigau and Eneko Agirre},
-      year={2023},
-      eprint={2310.03668},
-      archivePrefix={arXiv},
-      primaryClass={cs.CL}
-}
-```
 
 ## Acknolwedgement
-The GoLLIE-TF codebase is adopted from the [GoLLIE](https://github.com/hitz-zentroa/GoLLIE) project. We appreciate authors discussion on model implementation. We extend the codebase by adding multilingual IE evaluation tasks and extend dataset class for TransFusion prompt.
-
 This material is based in part on research sponsored by IARPA via the BETTER program (2019-19051600004).
+
+The GoLLIE-TF codebase is adopted from the [GoLLIE](https://github.com/hitz-zentroa/GoLLIE) project. We appreciate authors discussion on model implementation. We extend the codebase by adding multilingual IE evaluation tasks and extend dataset class. Please cite GoLLIE as well if you use the model.

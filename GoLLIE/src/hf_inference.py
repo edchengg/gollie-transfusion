@@ -112,20 +112,6 @@ multiconer2_task_list = [
 'multiconer2.en.ner',
 ]
 
-ace_task_list = [
-'multiace.zh.ner',
-'multiace.zh.ee',
-'multiace.zh.eae',
-'multiace.zh.re',
-'multiace.ar.ner',
-'multiace.ar.ee',
-'multiace.ar.eae',
-'multiace.ar.re',
-'ace.en.ner',
-'ace.en.ee',
-'ace.en.eae',
-'ace.en.re'
-]
 
 redfm_task_list = [
 'redfm.ar.re',
@@ -137,9 +123,6 @@ redfm_task_list = [
 'redfm.zh.re'
 ]
 
-conll03_task_list = [
-'conll03.ner'
-]
 
 xsid_task_list = [
 'xsid.ar.ner', 
@@ -185,8 +168,6 @@ massive_task_list = [
 task2list = {
 "masakhaner": masakhan_task_list,
 "uner": uner_task_list,
-"ace": ace_task_list,
-"conll03": conll03_task_list,
 "multinerd": multinerd_task_list,
 "redfm": redfm_task_list,
 "multiconer2": multiconer2_task_list,
@@ -240,7 +221,7 @@ def read_scores(task_name, task_scores, task_type):
         output.append(f"average\t{avg}")
     return output
 
-def batch_inference(model, tokenizer, prompts, batch_size=1):
+def batch_inference(model, tokenizer, prompts, batch_size=1, task_name=""):
     device = model.device
     all_outputs = []
 
@@ -249,8 +230,14 @@ def batch_inference(model, tokenizer, prompts, batch_size=1):
         batch_prompts = prompts[i:i + batch_size]
         
         # Tokenize the batch prompts
-        # model_input = tokenizer(batch_prompts, return_tensors="pt", padding=True, truncation=True, max_length=4096).to(device)
-        model_input = tokenizer(batch_prompts, return_tensors="pt", padding=True, truncation=True, max_length=8000).to(device)
+        if task_name in ["massive", "multito", "redfm"]:
+            max_length = 8000
+            max_new_tokens = 1024
+        else:
+            max_length = 4096
+            max_new_tokens = 512
+        
+        model_input = tokenizer(batch_prompts, return_tensors="pt", padding=True, truncation=True, max_length=max_length).to(device)
         
         # print(model_input.input_ids)
         # Remove EOS
@@ -260,7 +247,7 @@ def batch_inference(model, tokenizer, prompts, batch_size=1):
         # Generate output for the batch
         model_output = model.generate(
             **model_input,
-            max_new_tokens=512,
+            max_new_tokens=max_new_tokens,
             do_sample=False,
             min_new_tokens=0,
             num_beams=1,
@@ -274,7 +261,7 @@ def batch_inference(model, tokenizer, prompts, batch_size=1):
     
     return all_outputs
 
-def main(dataset_path: str, task_name_list: str, num_size: int, use_lora: bool, output_path: str, lora_path: str, batch_size: int) -> None:
+def main(dataset_path: str, task_name_list: str, num_size: int, use_lora: bool, output_path: str, lora_path: str, batch_size: int, model_name: str) -> None:
     """Main function to generate predictions and evaluate the model."""
 
     predictions_folder = os.path.join(output_path, "predictions")
@@ -291,7 +278,7 @@ def main(dataset_path: str, task_name_list: str, num_size: int, use_lora: bool, 
                             torch_dtype="bfloat16")
             clean_cache()
     else:
-        model_path = "HiTZ/GoLLIE-7B"
+        model_path = model_name #"HiTZ/GoLLIE-7B"
     
     model, tokenizer = load_model(
         inference=True,
@@ -315,7 +302,7 @@ def main(dataset_path: str, task_name_list: str, num_size: int, use_lora: bool, 
             data = load_jsonl(os.path.join(dataset_path, data_file + ".test.jsonl"))
             prompts = [l["text"].split("result =")[0] + "result =" for l in data][:num_size]
             
-            outputs = batch_inference(model, tokenizer, prompts, batch_size)
+            outputs = batch_inference(model, tokenizer, prompts, batch_size, task_name)
             
             # for output in outputs:
             #     print(output)
@@ -366,7 +353,8 @@ if __name__ == "__main__":
     parser.add_argument("--use_lora", action="store_true", help="Whether to use LoRA or not")
     parser.add_argument("--output_path", type=str, default=None, help="Path to save the generated outputs (optional)")
     parser.add_argument("--lora_path", type=str, default=None, help="Path to the LoRA weights file (required if --use_lora is True)")
+    parser.add_argument("--model_name", type=str, default=None, help="Path to model name from huggingface")
 
     args = parser.parse_args()
     main(args.dataset_path, args.task_name_list, args.num_size, args.use_lora, args.output_path, args.lora_path,
-        args.batch_size)
+        args.batch_size, args.model_name)

@@ -795,14 +795,17 @@ class ACETransFusionDatasetLoader(DatasetLoader):
         ], "`group_by` must be either 'sentence' or 'document'."
 
         self.elements = {}
-        lang = path.split("/")[-2].split("_")[1]
+        # lang = path.split("/")[-2].split("_")[1]
+        lang = kwargs["language"]
+        print(lang)
         translation = load_translation(language=lang)
         
         with open(path, "rt") as in_f:
             for line, eng_text in zip(in_f, translation):
                 line = json.loads(line.strip())
 
-                key = line["wnd_id"] if group_by == "sentence" else line["doc_id"]
+                #key = line["wnd_id"] if group_by == "sentence" else line["doc_id"]
+                key = line["sent_id"] if group_by == "sentence" else line["doc_id"]
                 if key not in self.elements:
                     self.elements[key] = {
                         "id": key,
@@ -994,10 +997,10 @@ class ACESampler(Sampler):
                 task_definitions, task_target, task_template = {
                     "NER": (ENTITY_DEFINITIONS, "entities", "templates/prompt_tf.txt"),
                     "VER": (VALUE_DEFINITIONS, "values", "templates/prompt_tf.txt"),
-                    "RE": (COARSE_RELATION_DEFINITIONS, "coarse_relations", "templates/prompt_ace_re_tfv2.txt"),
-                    "RC": (RELATION_DEFINITIONS, "relations", "templates/prompt_ace_rcv2.txt"),
+                    "RE": (COARSE_RELATION_DEFINITIONS, "coarse_relations", "templates/prompt_ace_re_tf.txt"),
+                    "RC": (RELATION_DEFINITIONS, "relations", "templates/prompt_ace_rc.txt"),
                     "EE": (COARSE_EVENT_DEFINITIONS, "events", "templates/prompt_tf.txt"),
-                    "EAE": (EVENT_DEFINITIONS, "arguments", "templates/prompt_ace_eae_tfv2.txt"),
+                    "EAE": (EVENT_DEFINITIONS, "arguments", "templates/prompt_ace_eae_tf.txt"),
                 }[task]
         else:
             task_definitions, task_target, task_template = {
