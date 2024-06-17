@@ -30,7 +30,7 @@ Based on TransFusion, we introduce GoLLIE-TF, a cross-lingual instruction-tuned 
 
 The labels are represented as Python classes, and the guidelines or instructions are introduced as docstrings.
 <p align="center">
-<img src="assets/masakhaner.png">
+<img src="assets/custome.png">
 </p>
 
 ## Installation
